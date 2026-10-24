@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Điệp ❤️ Yêu ❤️ Chi</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  height:100vh;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at bottom,#30104b 0%,#10051f 55%,#02010a 100%);
+  font-family:Arial,sans-serif;color:white;text-align:center
+}
+canvas{position:absolute;inset:0;width:100%;height:100%}
+.card{position:relative;z-index:2;padding:25px;width:92%;max-width:600px}
+.tag{color:#ff9bd5;letter-spacing:5px;font-size:12px}
+h1{
+  font-size:clamp(35px,9vw,65px);margin:25px 0;
+  background:linear-gradient(90deg,#ff8bd8,#fff,#ff3f8e,#d6a4ff);
+  background-size:300%;color:transparent;
+  -webkit-background-clip:text;background-clip:text;
+  animation:shine 4s linear infinite,heartbeat 1.5s infinite;
+  filter:drop-shadow(0 0 18px #ff36b9)
+}
+.heart{
+  font-size:90px;display:inline-block;
+  filter:drop-shadow(0 0 25px #ff248c);
+  animation:heartbeat 1s infinite
+}
+p{font-size:17px;line-height:1.9;color:#f8dff5}
+button{
+  margin-top:28px;padding:15px 28px;border:1px solid #ff9bd5;
+  border-radius:40px;color:white;font-size:16px;cursor:pointer;
+  background:linear-gradient(45deg,#a51c81,#6e2bd9);
+  box-shadow:0 0 25px #d32ba8;transition:.3s
+}
+button:hover{transform:scale(1.1);box-shadow:0 0 40px #ff46cf}
+#message{margin-top:20px;color:#ffc4e9;min-height:50px}
+@keyframes shine{to{background-position:300%}}
+@keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+.floating{
+  position:absolute;bottom:-50px;pointer-events:none;
+  animation:rise linear forwards;z-index:1
+}
+@keyframes rise{
+  0%{transform:translateY(0) rotate(0deg) scale(.5);opacity:0}
+  15%{opacity:1}
+  100%{transform:translateY(-115vh) rotate(360deg) scale(1.5);opacity:0}
+}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<div class="card">
+  <div class="tag">✨ A LITTLE LOVE STORY ✨</div>
+  <div class="heart">💖</div>
+  <h1>ĐIỆP ❤️ YÊU ❤️ CHI</h1>
+  <p>
+    Giữa hàng triệu vì sao trên bầu trời,<br>
+    Điệp vẫn muốn chọn Chi là vì sao sáng nhất. 🌟<br>
+    <b style="color:#ff9bd5">Gặp được Chi là điều tuyệt vời nhất.</b>
+  </p>
+  <button onclick="love()">💌 Nhấn vào đây nhé!</button>
+  <div id="message"></div>
+</div>
+
+<script>
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+let stars=[];
+
+function resize(){
+  canvas.width=innerWidth;
+  canvas.height=innerHeight;
+  stars=Array.from({length:140},()=>({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*1.8,
+    a:Math.random()
+  }));
+}
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  stars.forEach(s=>{
+    s.a+=0.025;
+    ctx.globalAlpha=0.35+Math.abs(Math.sin(s.a))*0.65;
+    ctx.fillStyle="#fff";
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fill();
+  });
+  ctx.globalAlpha=1;
+  requestAnimationFrame(draw);
+}
+resize();draw();
+addEventListener("resize",resize);
+
+const emojis=["💗","💖","💕","💘","✨","🌸","💝"];
+function floating(){
+  const el=document.createElement("div");
+  el.className="floating";
+  el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  el.style.left=Math.random()*100+"vw";
+  el.style.fontSize=(16+Math.random()*28)+"px";
+  const duration=4+Math.random()*5;
+  el.style.animationDuration=duration+"s";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),duration*1000);
+}
+setInterval(floating,250);
+
+function love(){
+  document.getElementById("message").innerHTML=
+    "💞 Điệp muốn nói với Chi rằng...<br>"+
+    "Chi luôn là một điều thật đặc biệt. 💗<br>"+
+    "<span style='font-size:22px'>Điệp thương Chi nhiều lắm! ❤️</span>";
+  for(let i=0;i<45;i++)setTimeout(floating,i*45);
+}
+</script>
+</body>
+</html>
